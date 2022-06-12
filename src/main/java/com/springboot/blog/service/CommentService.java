@@ -7,6 +7,7 @@ import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private PostRepository postRepository;
+
+    ModelMapper mapper = new ModelMapper();
 
     public CommentDTO addCommentToPost(CommentDTO commentDTO, long postId){
         Post post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "id", ""+postId));
@@ -64,19 +67,9 @@ public class CommentService {
     }
 
     private CommentDTO mapToDto(Comment comment){
-        CommentDTO commentDTO = new CommentDTO();
-        commentDTO.setBody(comment.getBody());
-        commentDTO.setEmail(comment.getEmail());
-        commentDTO.setName(comment.getName());
-        commentDTO.setId(comment.getId());
-        return commentDTO;
+        return mapper.map(comment, CommentDTO.class);
     }
     private Comment mapToModel(CommentDTO commentDTO){
-        Comment comment = new Comment();
-        comment.setBody(commentDTO.getBody());
-        comment.setEmail(commentDTO.getEmail());
-        comment.setName(commentDTO.getName());
-        comment.setId(commentDTO.getId());
-        return comment;
+        return mapper.map(commentDTO, Comment.class);
     }
 }
