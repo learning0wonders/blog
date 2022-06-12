@@ -17,10 +17,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDTO> addCommentToPost(@RequestBody CommentDTO commentDTO, @PathVariable(name = "postId") long postId){
         return new ResponseEntity(commentService.addCommentToPost(commentDTO,postId), HttpStatus.CREATED);

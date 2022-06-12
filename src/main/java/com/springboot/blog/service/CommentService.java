@@ -7,22 +7,22 @@ import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 @Service
 public class CommentService {
-
+    @Autowired
     private CommentRepository commentRepository;
+    @Autowired
     private PostRepository postRepository;
 
-    public CommentService(PostRepository postRepository, CommentRepository commentRepository) {
-        this.postRepository = postRepository;
-        this.commentRepository = commentRepository;
-    }
     public CommentDTO addCommentToPost(CommentDTO commentDTO, long postId){
         Post post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "id", ""+postId));
         Comment comment = mapToModel(commentDTO);

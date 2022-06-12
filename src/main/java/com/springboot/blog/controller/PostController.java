@@ -18,10 +18,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
-
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
         return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
