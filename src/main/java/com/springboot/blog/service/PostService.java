@@ -3,7 +3,7 @@ package com.springboot.blog.service;
 import com.springboot.blog.DTO.PostDTO;
 import com.springboot.blog.DTO.PostResponse;
 import com.springboot.blog.entity.Post;
-import com.springboot.blog.exception.ResourceNotFound;
+import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +44,7 @@ public class PostService {
     }
 
     public PostDTO getPostById(long id){
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFound("POST", "Id",  id+""));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("POST", "Id",  id+""));
         return mapToDTO(post);
     }
 
@@ -59,7 +59,7 @@ public class PostService {
     }
 
     public void deletePostById(long id){
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFound("POST", "Id",  id+""));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("POST", "Id",  id+""));
         postRepository.delete(post);
     }
 
